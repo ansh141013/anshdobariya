@@ -43,3 +43,6 @@ Thumbs.db
 # Archives & temp binaries
 ngrok.zip
 *.zip
+
+.vercel
+.env*

@@ -489,12 +489,10 @@ function App() {
             <div className="profile-right-col">
               <Reveal className="about-visual">
                 <img
-                  src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=1200&q=85"
-                  alt="Ansh Dobariya robotics engineering workspace"
+                  src="/ansh-dobariya.jpg"
+                  alt="Ansh Dobariya - Robotics Engineer"
                   loading="lazy"
                 />
-                <div className="about-overlay-copy">SAME<br />CURIOSITY.<br />BIGGER<br />POSSIBILITIES.</div>
-                <div className="about-signature">AUTOMATE<br />INNOVATE<br />SOLVE<br />REPEAT</div>
               </Reveal>
 
               {/* Technical Profile Breakdown */}
