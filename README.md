@@ -1,35 +1,81 @@
 # Ansh Dobariya — Robotics Engineer Portfolio
 
-A reference-matched white / black / graphite portfolio with subtle industrial orange accents.
+<p align="center">
+  <a href="https://anshdobariya.vercel.app">
+    <img src="preview.png" alt="Ansh Dobariya — Robotics & Automation Portfolio" width="100%" />
+  </a>
+</p>
 
-## Interaction model
+<p align="center">
+  <a href="https://anshdobariya.vercel.app"><strong>🌐 Live Demo: anshdobariya.vercel.app</strong></a>
+</p>
 
-- Pointer controls the hero robot's orientation/end-effector target.
-- Pick/Place state is wired into the hero scene.
-- Scroll reveals are powered by GSAP.
-- The layout is intentionally close to the supplied portfolio reference: typography, spacing, section order, project cards, skills grid, journey split, and contact composition.
+<p align="center">
+  <img src="https://img.shields.io/badge/Status-Live-success?style=flat-square" alt="Status" />
+  <img src="https://img.shields.io/badge/Vercel-Deployed-black?style=flat-square&logo=vercel" alt="Vercel" />
+  <img src="https://img.shields.io/badge/React-19-blue?style=flat-square&logo=react" alt="React 19" />
+  <img src="https://img.shields.io/badge/Three.js-3D%20Robotics-orange?style=flat-square&logo=threedotjs" alt="Three.js" />
+  <img src="https://img.shields.io/badge/Vite-6-646CFF?style=flat-square&logo=vite" alt="Vite" />
+</p>
 
-## 3D model
+---
 
-The prototype points at this GLB source:
-https://raw.githubusercontent.com/microsoft/experimental-pcf-control-assets/master/robot_arm.glb
+## 🤖 Overview
 
-Microsoft documentation publicly references this asset as a "Robot Arm" GLB. For production use, replace `MODEL_URL` in `src/main.tsx` with a GLB you have a clear commercial/portfolio license for.
+Interactive, high-performance portfolio covering robotics, automation, embedded systems, and engineering. Built with a responsive 3D interactive 6-DOF robotic arm end-effector scene, sleek typography, and motion animations.
 
-Premium candidates to evaluate:
-- CGTrader 6-Axis Industrial Robotic Arm: https://www.cgtrader.com/3d-models/industrial/industrial-machine/6-axis-industrial-robotic-arm
-- CGTrader Industrial Robotic Arm Basic Version: https://www.cgtrader.com/3d-models/industrial/industrial-machine/industrial-robot-arm-basic-version
-- Sketchfab 6 Axis Industrial Robot Arm (CC BY): https://sketchfab.com/3d-models/6-axis-industrial-robot-arm-3ecc74c22c584b2b8295f17dedcdb89f
+- **Live URL:** [https://anshdobariya.vercel.app](https://anshdobariya.vercel.app)
+- **GitHub Repository:** [https://github.com/ansh141013/anshdobariya](https://github.com/ansh141013/anshdobariya)
 
-Before using a paid or CC-BY asset in a public portfolio, verify the current license terms and attribution requirements on the listing page.
+---
 
-## Run
+## ⚡ Features & Interactivity
+
+- **Interactive 3D Robot Arm:** Real-time Three.js canvas featuring a 6-DOF industrial robot arm responsive to pointer and end-effector target manipulation.
+- **Physics & Control:** Pick/Place state controls and forward/inverse kinematics configuration.
+- **Scroll Reveals:** Smooth GSAP & Framer Motion transitions.
+- **Industrial Precision Aesthetic:** Crisp light/graphite theme with signature industrial orange accenting.
+- **Responsive Layout:** Optimized across desktop, tablet, and mobile viewports.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend:** React 19, TypeScript
+- **3D Graphics:** Three.js, `@react-three/fiber`, `@react-three/drei`
+- **Animation:** GSAP, Framer Motion
+- **Styling:** Tailwind CSS
+- **Bundler:** Vite 6
+- **Deployment:** Vercel
+
+---
+
+## 🚀 Local Development
 
 ```bash
+# Clone the repository
+git clone https://github.com/ansh141013/anshdobariya.git
+
+# Navigate into project directory
+cd anshdobariya
+
+# Install dependencies
 npm install
+
+# Start local development server
 npm run dev
 ```
 
-## Wix
+Build for production:
+```bash
+npm run build
+```
 
-The cleanest production path is to deploy the built Vite app and embed the hero/custom element in Wix, or port the 3D scene into a Wix Custom Element. Keep the UI sections as HTML/CSS and isolate Three.js inside the hero to preserve performance.
+---
+
+## 👤 Author
+
+**Ansh Dobariya**
+- Portfolio: [anshdobariya.vercel.app](https://anshdobariya.vercel.app)
+- GitHub: [@ansh141013](https://github.com/ansh141013)
+- Email: [ansh.workspace31@gmail.com](mailto:ansh.workspace31@gmail.com)
