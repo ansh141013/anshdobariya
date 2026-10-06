@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="description" content="Ansh Dobariya, Robotics Engineer. Interactive portfolio covering robotics, AI, automation, embedded systems and engineering." />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <title>Ansh Dobariya — Robotics Engineer</title>
+    <script>
+      window.__errs = [];
+      window.addEventListener('error', function(e) {
+        window.__errs.push({ message: e.message, stack: e.error ? e.error.stack : '' });
+      });
+      // Safety auto-dismiss for pre-splash so it never gets stuck
+      setTimeout(function() {
+        var s = document.getElementById('pre-splash');
+        if (s) {
+          s.style.transition = 'opacity 0.6s ease';
+          s.style.opacity = '0';
+          setTimeout(function() { if (s && s.parentNode) s.parentNode.removeChild(s); }, 600);
+        }
+      }, 3500);
+    </script>
+  </head>
+  <body>
+    <div id="pre-splash" style="position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#ffffff;font-family:system-ui,-apple-system,sans-serif;z-index:999999;">
+      <div style="width:58px;height:58px;border-radius:18px;border:1.5px solid #e4e4e7;display:grid;place-items:center;margin-bottom:18px;box-shadow:0 6px 20px rgba(0,0,0,0.04);background:#fff;padding:10px;">
+        <img src="/logo.png" alt="Ansh Dobariya Logo" style="width:100%;height:100%;object-fit:contain;" />
+      </div>
+      <div style="font-size:12px;font-weight:700;letter-spacing:0.18em;color:#0c0d0e;margin-bottom:6px;">ANSH DOBARIYA</div>
+      <div style="font-size:9px;font-weight:600;letter-spacing:0.2em;color:#ff6a00;">ROBOTICS &amp; AUTOMATION</div>
+    </div>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
