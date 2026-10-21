@@ -516,18 +516,24 @@ h1, h2, h3 {
 }
 
 .hero-visual-wrap {
-  height: 520px;
+  min-height: 580px;
+  height: 100%;
+  width: 100%;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  pointer-events: none;
 }
 
 .hero-canvas {
   position: absolute;
   inset: 0;
-  overflow: hidden;
+  width: 100%;
+  height: 100%;
   cursor: grab;
+  pointer-events: auto;
+  background: transparent !important;
 }
 
 .hero-canvas:active {
@@ -539,6 +545,8 @@ h1, h2, h3 {
   inset: 0;
   width: 100% !important;
   height: 100% !important;
+  background: transparent !important;
+  outline: none !important;
 }
 
 /* ─── Hero Interaction Hint ─── */
@@ -1717,7 +1725,8 @@ h1, h2, h3 {
     justify-content: center;
   }
   .hero-visual-wrap {
-    height: 460px;
+    min-height: 460px;
+    height: 480px;
   }
   .resume-profile-grid, .about-grid, .contact-grid {
     grid-template-columns: 1fr;
@@ -1807,7 +1816,8 @@ h1, h2, h3 {
   }
   .hero-visual-wrap {
     order: 2;
-    height: 380px;
+    min-height: 380px;
+    height: 400px;
     width: 100%;
     margin-top: 8px;
   }
@@ -1968,7 +1978,8 @@ h1, h2, h3 {
     min-height: 44px;
   }
   .hero-visual-wrap {
-    height: 320px;
+    min-height: 350px;
+    height: 360px;
   }
   .skills-grid {
     grid-template-columns: repeat(2, 1fr);

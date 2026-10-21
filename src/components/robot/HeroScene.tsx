@@ -1,10 +1,12 @@
-import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react';
+import React, { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import { ContactShadows } from '@react-three/drei';
 import * as THREE from 'three';
 import { MousePointer2, Settings2 } from 'lucide-react';
 import { RobotArm } from './RobotArm';
 import { HERO_ROBOT_SCALE, CAD_UNIT_SCALE, BASE_CENTER_OFFSET_MM } from './robotRigConfig';
+import { RoboticCellScene } from './RoboticCellScene';
+import { getHeroModelPreference, setHeroModelPreference, type HeroModelType } from './cellConfig';
 
 interface HeroSceneProps {
   picked: boolean;
@@ -185,7 +187,10 @@ function InteractionPlane({
   );
 }
 
-export function HeroScene({ picked, setPicked }: HeroSceneProps) {
+/**
+ * Original 6-DOF Robot Arm Hero Scene (preserved intact)
+ */
+function OriginalHeroScene({ picked, setPicked }: HeroSceneProps) {
   const targetWorldPos = useRef(REST_TCP_WORLD.clone());
   const isInteractingRef = useRef(false);
 
@@ -344,6 +349,138 @@ export function HeroScene({ picked, setPicked }: HeroSceneProps) {
             <div>Error Dist: {telemetry.distance} mm</div>
           </div>
         </div>
+      )}
+    </div>
+  );
+}
+
+/**
+ * HeroScene — Model switcher component
+ *
+ * Configuration priority:
+ *   1. URL param: ?heroModel=cell | ?heroModel=original
+ *   2. localStorage: 'ansh_hero_model'
+ *   3. Default: 'cell' (new 8-DOF robotic cell)
+ *
+ * The original 6-DOF robot arm is fully preserved and can be restored at any time.
+ */
+export function HeroScene({ picked, setPicked }: HeroSceneProps) {
+  const [activeModel, setActiveModel] = useState<HeroModelType>(() => getHeroModelPreference());
+  const visualWrapperRef = useRef<HTMLDivElement>(null);
+
+  // Scroll-driven fade & subtle depth perspective transition
+  useEffect(() => {
+    const heroEl = document.getElementById('home');
+    if (!heroEl || !visualWrapperRef.current) return;
+
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let isReduced = mediaQuery.matches;
+
+    const handleMotionChange = (e: MediaQueryListEvent) => {
+      isReduced = e.matches;
+      if (isReduced && visualWrapperRef.current) {
+        visualWrapperRef.current.style.opacity = '1';
+        visualWrapperRef.current.style.transform = 'none';
+      }
+    };
+    mediaQuery.addEventListener('change', handleMotionChange);
+
+    let rafId: number | null = null;
+
+    const onScroll = () => {
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        if (!heroEl || !visualWrapperRef.current) return;
+
+        if (isReduced) {
+          visualWrapperRef.current.style.opacity = '1';
+          visualWrapperRef.current.style.transform = 'none';
+          return;
+        }
+
+        const rect = heroEl.getBoundingClientRect();
+        const heroHeight = rect.height;
+
+        // When rect.top is 0 (initial position at top): progress = 0
+        // As user scrolls down, -rect.top increases.
+        const scrollDistance = Math.max(0, -rect.top);
+        const fadeThreshold = Math.max(heroHeight * 0.70, 320);
+        const progress = Math.min(1, Math.max(0, scrollDistance / fadeThreshold));
+
+        // Smooth cubic easing (Hermite S-curve) for perceptually natural transition
+        const fadeProgress = progress * progress * (3 - 2 * progress);
+
+        // Opacity smoothly drops from 1.0 to 0.0
+        const opacity = (1 - fadeProgress).toFixed(3);
+        // Scale subtly reduces by ~6% (1.0 -> 0.94) for gentle sense of depth
+        const scale = (1 - 0.06 * fadeProgress).toFixed(4);
+        // Translate subtly upward/backward (-20px)
+        const translateY = (-20 * fadeProgress).toFixed(1);
+
+        const el = visualWrapperRef.current;
+        el.style.opacity = opacity;
+        el.style.transform = `translate3d(0, ${translateY}px, 0) scale(${scale})`;
+        el.style.pointerEvents = Number(opacity) < 0.35 ? 'none' : 'auto';
+      });
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    onScroll();
+
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      mediaQuery.removeEventListener('change', handleMotionChange);
+    };
+  }, []);
+
+  // Dev toggle (only visible in debug mode or ?robotDebug=1)
+  const showModelToggle = useMemo(() => {
+    try {
+      return (
+        window.location.search.includes('robotDebug=1') ||
+        window.location.search.includes('heroModel=') ||
+        sessionStorage.getItem('robot_debug') === '1'
+      );
+    } catch {
+      return false;
+    }
+  }, []);
+
+  const switchModel = useCallback(() => {
+    const next: HeroModelType = activeModel === 'cell' ? 'original' : 'cell';
+    setActiveModel(next);
+    setHeroModelPreference(next);
+  }, [activeModel]);
+
+  return (
+    <div
+      ref={visualWrapperRef}
+      className="w-full h-full relative pointer-events-auto"
+      style={{
+        willChange: 'transform, opacity',
+        transition: 'transform 0.06s linear, opacity 0.06s linear',
+      }}
+    >
+      {activeModel === 'cell' ? (
+        <RoboticCellScene />
+      ) : (
+        <OriginalHeroScene picked={picked} setPicked={setPicked} />
+      )}
+
+      {/* Model Toggle (dev only — hidden from public hero UI) */}
+      {showModelToggle && (
+        <button
+          onClick={switchModel}
+          className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-black/5 hover:bg-black/10 text-[10px] font-mono font-medium text-black/60 backdrop-blur-sm transition-colors border border-black/10 z-20"
+          title="Switch between 8-DOF Cell and original 6-DOF Arm"
+        >
+          <Settings2 size={11} />
+          <span>{activeModel === 'cell' ? 'SHOW 6-DOF ARM' : 'SHOW 8-DOF CELL'}</span>
+        </button>
       )}
     </div>
   );

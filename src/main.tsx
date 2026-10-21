@@ -755,9 +755,33 @@ function App() {
                 I’m interested in robotics projects, engineering collaborations, internships and opportunities to build real-world systems.
               </p>
               <div className="contact-links">
-                <a href="#" aria-label="LinkedIn profile of Ansh Dobariya"><Linkedin size={19}/><span>LINKEDIN</span></a>
-                <a href="#" aria-label="GitHub profile of Ansh Dobariya"><Github size={19}/><span>GITHUB</span></a>
-                <a href="mailto:your@email.com" aria-label="Email Ansh Dobariya"><Mail size={19}/><span>EMAIL</span></a>
+                <a
+                  href="https://www.linkedin.com/in/ansh-dobariya-151319332/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn profile of Ansh Dobariya"
+                >
+                  <Linkedin size={19} />
+                  <span>LINKEDIN</span>
+                </a>
+                <a
+                  href="https://github.com/ansh141013"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="GitHub profile of Ansh Dobariya"
+                >
+                  <Github size={19} />
+                  <span>GITHUB</span>
+                </a>
+                <a
+                  href="mailto:ansh.workspace31@gmail.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Email Ansh Dobariya"
+                >
+                  <Mail size={19} />
+                  <span>EMAIL</span>
+                </a>
               </div>
             </Reveal>
             <Reveal className="contact-visual">
